@@ -3,14 +3,14 @@ import { sbr as Build } from '../../index';
 import * as PLANM from '../main';
 import * as MOUSEE from '../../mouseEvent';
 import * as MOVEPOINT from './movePoint';
+import * as PWALL from '../wall/wall';
 
 export class PointObj {
   constructor() {}
 
   addPointInArr(obj) {
-    let i = PLANM.inf.actLevelId;
+    let i = obj.userData.level;
     PLANM.inf.level[i].points.push(obj);
-    console.log(PLANM.inf.level[i]);
   }
 
   addEvent(obj, clickPos) {
@@ -40,14 +40,48 @@ export class PointObj {
   }
 
   deleteObj(obj) {
-    let i = PLANM.inf.actLevelId;
+    let p = obj.userData.point.joinP;
+    let w = obj.userData.point.joinW;
 
-    this.deleteValueFromArrya({ obj: obj, arr: PLANM.inf.level[i].points });
+    if (p.length > 2) return;
 
-    Build.scene.remove(obj);
+    for (let i = 0; i < p.length; i++) {
+      this.deleteValueFromArrya({ arr: p[i].userData.point.joinP, obj: obj });
+
+      for (let i2 = 0; i2 < w.length; i2++) {
+        this.deleteValueFromArrya({ arr: p[i].userData.point.joinW, obj: w[i2] });
+        w[i2].geometry.dispose();
+        Build.scene.remove(w[i2]);
+      }
+    }
+
+    obj.userData.point.joinP = [];
+    obj.userData.point.joinW = [];
+
+    if (p.length == 2) {
+      let exsist1 = p[0].userData.point.joinP.find((point) => point == p[1]);
+      let exsist2 = p[1].userData.point.joinP.find((point) => point == p[0]);
+
+      // когда удалем точку из треугольника стен, чтобы не создавать стену в стене
+      if (!exsist1 && !exsist2) {
+        p[0].userData.point.joinP.push(p[1]);
+        p[1].userData.point.joinP.push(p[0]);
+
+        PWALL.crWall({ p1: p[0], p2: p[1] });
+      }
+    }
+
+    let arr = [...p, obj];
+
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].userData.point.joinP.length > 0) continue;
+
+      let n = obj.userData.level;
+      this.deleteValueFromArrya({ arr: PLANM.inf.level[n].points, obj: arr[i] });
+      Build.scene.remove(arr[i]);
+    }
+
     Build.camOrbit.render();
-
-    console.log(PLANM.inf.level[i]);
   }
 
   deleteValueFromArrya(params) {

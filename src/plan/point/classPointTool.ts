@@ -37,27 +37,28 @@ export class PointTool {
   }
 
   deletePoint(obj) {
-    this.deleteWall(obj);
+    this.deleteJointWP(obj);
     Build.scene.remove(obj);
     Build.camOrbit.render();
   }
 
-  deleteWall(obj) {
-    let p = obj.userData.point.joinP;
-    let w = obj.userData.point.joinW;
+  deleteJointWP(obj) {
+    let p = obj.userData.point.joinP[0];
+    let w = obj.userData.point.joinW[0];
 
-    for (let i = 0; i < p.length; i++) {
-      this.deleteValueFromArrya({ arr: p[i].userData.point.joinP, obj: obj });
+    this.deleteValueFromArrya({ arr: p.userData.point.joinP, obj: obj });
 
-      for (let i2 = 0; i2 < w.length; i2++) {
-        this.deleteValueFromArrya({ arr: p[i].userData.point.joinW, obj: w[i2] });
-        w[i2].geometry.dispose();
-        Build.scene.remove(w[i2]);
-      }
+    if (w) {
+      this.deleteValueFromArrya({ arr: p.userData.point.joinW, obj: w });
+      w.geometry.dispose();
+      Build.scene.remove(w);
     }
 
-    obj.userData.point.joinP = [];
-    obj.userData.point.joinW = [];
+    if (p.userData.point.joinP.length == 0) {
+      let i = p.userData.level;
+      this.deleteValueFromArrya({ arr: PLANM.inf.level[i].points, obj: p });
+      Build.scene.remove(p);
+    }
   }
 
   deleteValueFromArrya(params) {

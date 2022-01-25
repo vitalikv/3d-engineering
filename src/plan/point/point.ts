@@ -24,8 +24,10 @@ inf.mat_active = new THREE.MeshPhongMaterial({
 
 export function crPoint(params: any = {}) {
   let id = params.id;
+  let level = params.level;
   let pos = params.pos;
   let tool = params.tool;
+  let joinP = params.joinP;
 
   let obj = new THREE.Mesh(inf.geometry_1, inf.mat_default);
 
@@ -39,7 +41,7 @@ export function crPoint(params: any = {}) {
   }
   obj.userData.id = id;
   obj.userData.tag = 'point';
-  obj.userData.level = 0;
+  obj.userData.level = level ? level : PLANM.inf.actLevelId;
 
   obj.userData.point = {};
   obj.userData.point.click = {};
@@ -52,8 +54,8 @@ export function crPoint(params: any = {}) {
   obj.userData.point.joinP = [];
   obj.userData.point.joinW = [];
 
-  if (params.joinP) {
-    let arr = params.joinP;
+  if (joinP) {
+    let arr = joinP;
 
     for (let i = 0; i < arr.length; i++) {
       if (!arr[i]) continue;

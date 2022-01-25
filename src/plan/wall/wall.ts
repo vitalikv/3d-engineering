@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { sbr as Build } from '../../index';
+import * as PLANM from '../main';
 import * as CLWALLO from './classWallObj';
 
 let inf: any = {};
@@ -9,6 +10,7 @@ inf.mat_active = new THREE.MeshPhongMaterial({ color: 0xff0000, wireframe: false
 
 export function crWall(params: any = {}) {
   let id = params.id;
+  let level = params.level;
   let p1 = params.p1;
   let p2 = params.p2;
 
@@ -20,7 +22,7 @@ export function crWall(params: any = {}) {
   }
   obj.userData.id = id;
   obj.userData.tag = 'wall';
-  obj.userData.active = false;
+  obj.userData.level = level ? level : PLANM.inf.actLevelId;
 
   obj.userData.wall = {};
   obj.userData.wall.click = {};

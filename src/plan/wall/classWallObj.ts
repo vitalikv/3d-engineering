@@ -8,9 +8,8 @@ export class WallObj {
   constructor() {}
 
   addWallInArr(obj) {
-    let i = PLANM.inf.actLevelId;
+    let i = obj.userData.level;
     PLANM.inf.level[i].walls.push(obj);
-    console.log(PLANM.inf.level[i]);
   }
 
   addEvent(obj, clickPos) {
@@ -40,14 +39,11 @@ export class WallObj {
   }
 
   deleteObj(obj) {
-    let i = PLANM.inf.actLevelId;
-
+    let i = obj.userData.level;
     this.deleteValueFromArrya({ obj: obj, arr: PLANM.inf.level[i].walls });
 
     Build.scene.remove(obj);
     Build.camOrbit.render();
-
-    console.log(PLANM.inf.level[i]);
   }
 
   deleteValueFromArrya(params) {

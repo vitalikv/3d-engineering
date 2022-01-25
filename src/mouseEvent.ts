@@ -17,6 +17,17 @@ export function initMouseEvent() {
   Build.canvas.addEventListener('mouseup', (event) => {
     mouseUp(event);
   });
+
+  document.addEventListener('keydown', () => {
+    deleteKey();
+  });
+}
+
+function deleteKey() {
+  if (!inf.obj.down) return;
+
+  let obj = inf.obj.down;
+  obj.userData.f.deleteObj(obj);
 }
 
 function mouseDown(event) {
