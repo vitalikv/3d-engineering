@@ -15,6 +15,8 @@ sbr.elRoot = null;
 sbr.canvas = null;
 sbr.id = 0;
 
+let renderer;
+
 function init() {
   let elRoot: any = document.querySelector('[nameId="root"]');
   sbr.elRoot = elRoot;
@@ -35,7 +37,7 @@ function init() {
   sbr.scene = scene;
   scene.background = new THREE.Color(0xffffff);
 
-  let renderer = new THREE.WebGLRenderer({ antialias: false });
+  renderer = new THREE.WebGLRenderer({ antialias: false });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(container.clientWidth, container.clientHeight, false);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -97,6 +99,14 @@ function initLight(params) {
   scene.add(lights[1]);
   scene.add(lights[2]);
   scene.add(lights[3]);
+}
+
+window['getConsoleRendererInfo'] = getConsoleRendererInfo;
+
+function getConsoleRendererInfo() {
+  //console.log(renderer.info.programs);
+  //console.log(renderer.info.render);
+  console.log(renderer.info.memory);
 }
 
 document.addEventListener('DOMContentLoaded', init);

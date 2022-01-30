@@ -64,9 +64,6 @@ export class PointObj {
 
       // когда удалем точку из треугольника стен, чтобы не создавать стену в стене
       if (!exsist1 && !exsist2) {
-        p[0].userData.point.joinP.push(p[1]);
-        p[1].userData.point.joinP.push(p[0]);
-
         PWALL.crWall({ p1: p[0], p2: p[1] });
       }
     }

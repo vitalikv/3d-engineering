@@ -34,6 +34,9 @@ export function crWall(params: any = {}) {
 
   obj.userData.wall.joinP = [p1, p2];
 
+  p1.userData.point.joinP.push(p2);
+  p2.userData.point.joinP.push(p1);
+
   obj.userData.f = new CLWALLO.WallObj();
 
   Build.scene.add(obj);

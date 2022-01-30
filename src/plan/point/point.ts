@@ -60,9 +60,6 @@ export function crPoint(params: any = {}) {
     for (let i = 0; i < arr.length; i++) {
       if (!arr[i]) continue;
 
-      obj.userData.point.joinP.push(arr[i]);
-      arr[i].userData.point.joinP.push(obj);
-
       PWALL.crWall({ p1: obj, p2: arr[i] });
     }
   }
