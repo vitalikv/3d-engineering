@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-//const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   //mode: 'development',
@@ -9,17 +10,16 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'main.[contenthash].js',
-    clean: true,
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, './src/template.html'),
       filename: 'index.html',
     }),
-    //new CopyPlugin(
-    //{
-    //patterns: [{ from: './src/img', to: './img' }],
-    //}),
+    new CopyPlugin({
+      patterns: [{ from: './src/t', to: './t' }],
+    }),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [

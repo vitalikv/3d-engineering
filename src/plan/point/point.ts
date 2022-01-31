@@ -39,6 +39,7 @@ export function crPoint(params: any = {}) {
     id = Build.id;
     Build.id++;
   }
+
   obj.userData.id = id;
   obj.userData.tag = 'point';
   obj.userData.level = level ? level : PLANM.inf.actLevelId;
@@ -60,7 +61,7 @@ export function crPoint(params: any = {}) {
     for (let i = 0; i < arr.length; i++) {
       if (!arr[i]) continue;
 
-      PWALL.crWall({ p1: obj, p2: arr[i] });
+      PWALL.crWall({ p1: obj, p2: arr[i], tool: tool });
     }
   }
 

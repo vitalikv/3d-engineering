@@ -13,6 +13,7 @@ export function crWall(params: any = {}) {
   let level = params.level;
   let p1 = params.p1;
   let p2 = params.p2;
+  let tool = params.tool;
 
   let obj = new THREE.Mesh(new THREE.BufferGeometry(), inf.mat_default);
 
@@ -37,7 +38,12 @@ export function crWall(params: any = {}) {
   p1.userData.point.joinP.push(p2);
   p2.userData.point.joinP.push(p1);
 
-  obj.userData.f = new CLWALLO.WallObj();
+  if (tool) {
+    obj.userData.f = new CLWALLO.WallObj();
+  } else {
+    obj.userData.f = new CLWALLO.WallObj();
+    obj.userData.f.addWallInArr(obj);
+  }
 
   Build.scene.add(obj);
 

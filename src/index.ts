@@ -7,6 +7,7 @@ import * as UIBASE from './ui/base';
 import * as TESTTS from './test';
 import * as PLAN from './plan/main';
 import * as MOUSEE from './mouseEvent';
+import * as ISAVELOAD from './saveLoad/index';
 
 export let sbr: any = {};
 sbr.scene = null;
@@ -67,6 +68,7 @@ function init() {
   TESTTS.test2();
 
   PLAN.init();
+  ISAVELOAD.initSaveLoad();
   MOUSEE.initMouseEvent();
 
   let camOrbit = new CAM.CameraOrbit({
