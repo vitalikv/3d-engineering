@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { sbr as Build } from '../../index';
 import * as BPOINT from './point';
 import * as MOUSEE from '../../mouseEvent';
+import * as RHIT from '../../core/rayHit';
 import * as PLANM from '../main';
 
 export function createButtonPoint(): void {
@@ -31,7 +32,7 @@ export function createButtonPoint(): void {
       document.onmousemove = function (event) {
         if (event.target == container) {
           document.onmousemove = null;
-          let intersects = MOUSEE.rayIntersect(event, planeMath, 'one');
+          let intersects = RHIT.rayIntersect(event, planeMath, 'one');
           if (intersects.length == 0) reject();
 
           resolve({ pos: intersects[0].point });

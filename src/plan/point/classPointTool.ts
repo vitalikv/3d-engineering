@@ -5,6 +5,7 @@ import * as MOUSEE from '../../mouseEvent';
 import * as MOVEPOINT from './movePoint';
 import * as CLPOINTO from './classPointObj';
 import * as BPOINT from './point';
+import * as CONNPOINT from './connectPoint';
 
 export class PointTool {
   constructor() {}
@@ -13,6 +14,7 @@ export class PointTool {
     MOVEPOINT.startPoint({ obj: obj, clickPos: obj.position });
 
     Build.canvas.onmousemove = (e) => {
+      MOUSEE.setStop(true);
       MOVEPOINT.movePoint({ obj: obj, event: e });
     };
 
@@ -20,11 +22,13 @@ export class PointTool {
       Build.canvas.onmousemove = null;
       Build.canvas.onmousedown = null;
 
+      MOUSEE.setStop(false);
       MOVEPOINT.endPoint();
 
       if (e.button == 2) {
         this.deletePoint(obj);
       } else {
+        CONNPOINT.finishToolPoint({ obj: obj });
         obj.userData.f = new CLPOINTO.PointObj();
         obj.userData.f.addPointInArr(obj);
 

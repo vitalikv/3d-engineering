@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { sbr as Build } from '../../index';
 import * as PLANM from '../main';
 import * as MOUSEE from '../../mouseEvent';
+import * as RHIT from '../../core/rayHit';
 import * as BPOINT from './point';
 import * as PWALL from '../wall/wall';
 
@@ -24,7 +25,7 @@ export function movePoint(params) {
   let obj = params.obj;
   let event = params.event;
 
-  let intersects = MOUSEE.rayIntersect(event, PLANM.inf.planeMath, 'one');
+  let intersects = RHIT.rayIntersect(event, PLANM.inf.planeMath, 'one');
 
   if (intersects.length == 0) return;
 

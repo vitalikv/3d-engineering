@@ -1,9 +1,16 @@
 import * as THREE from 'three';
 import { sbr as Build } from './index';
+import * as RHIT from './core/rayHit';
 import * as PLANM from './plan/main';
 
 let inf: any = {};
-inf.obj = { down: null, up: null };
+
+inf.obj = {};
+inf.obj.down = null;
+inf.obj.up = null;
+
+inf.mouse = {};
+inf.mouse.stop = false;
 
 export function initMouseEvent() {
   Build.canvas.addEventListener('mousedown', (event) => {
@@ -23,6 +30,10 @@ export function initMouseEvent() {
   });
 }
 
+export function setStop(value) {
+  inf.mouse.stop = value;
+}
+
 function deleteKey() {
   if (!inf.obj.down) return;
 
@@ -31,6 +42,8 @@ function deleteKey() {
 }
 
 function mouseDown(event) {
+  if (inf.mouse.stop) return;
+
   if (inf.obj.down) {
     let obj = inf.obj.down;
     obj.userData.f.deAciveMat(obj);
@@ -65,14 +78,14 @@ function clickRayHit(event) {
   let i = PLANM.inf.actLevelId;
 
   if (!rayhit) {
-    var ray = rayIntersect(event, PLANM.inf.level[i].points, 'arr');
+    let ray = RHIT.rayIntersect(event, PLANM.inf.level[i].points, 'arr');
     if (ray.length > 0) {
       rayhit = ray[0];
     }
   }
 
   if (!rayhit) {
-    var ray = rayIntersect(event, PLANM.inf.level[i].walls, 'arr');
+    let ray = RHIT.rayIntersect(event, PLANM.inf.level[i].walls, 'arr');
     if (ray.length > 0) {
       rayhit = ray[0];
     }
@@ -128,29 +141,4 @@ function mouseUp(event) {
   //   }
   // }
   // inf.obj.down = null;
-}
-
-export function rayIntersect(event, obj, t) {
-  let container = Build.canvas;
-
-  let mouse = getMousePosition(event);
-
-  function getMousePosition(event) {
-    let x = ((event.clientX - container.offsetLeft) / container.clientWidth) * 2 - 1;
-    let y = -((event.clientY - container.offsetTop) / container.clientHeight) * 2 + 1;
-
-    return new THREE.Vector2(x, y);
-  }
-
-  let raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera(mouse, Build.camOrbit.activeCam);
-
-  let intersects = null;
-  if (t == 'one') {
-    intersects = raycaster.intersectObject(obj);
-  } else if (t == 'arr') {
-    intersects = raycaster.intersectObjects(obj, true);
-  }
-
-  return intersects;
 }

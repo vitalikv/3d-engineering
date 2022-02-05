@@ -43,6 +43,8 @@ export class PointObj {
     let p = obj.userData.point.joinP;
     let w = obj.userData.point.joinW;
 
+    let levelId = obj.userData.level;
+
     if (p.length > 2) return;
 
     for (let i = 0; i < p.length; i++) {
@@ -50,6 +52,7 @@ export class PointObj {
 
       for (let i2 = 0; i2 < w.length; i2++) {
         this.deleteValueFromArrya({ arr: p[i].userData.point.joinW, obj: w[i2] });
+        this.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].walls, obj: w[i2] });
         w[i2].geometry.dispose();
         Build.scene.remove(w[i2]);
       }
@@ -73,8 +76,7 @@ export class PointObj {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].userData.point.joinP.length > 0) continue;
 
-      let n = obj.userData.level;
-      this.deleteValueFromArrya({ arr: PLANM.inf.level[n].points, obj: arr[i] });
+      this.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].points, obj: arr[i] });
       Build.scene.remove(arr[i]);
     }
 

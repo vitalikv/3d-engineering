@@ -109,6 +109,7 @@ function getConsoleRendererInfo() {
   //console.log(renderer.info.programs);
   //console.log(renderer.info.render);
   console.log(renderer.info.memory);
+  console.log(PLAN.inf.level);
 }
 
 document.addEventListener('DOMContentLoaded', init);
