@@ -66,11 +66,11 @@ export function crPoint(params: any = {}) {
   }
 
   if (tool) {
-    obj.userData.f = new CLPOINTT.PointTool();
-    obj.userData.f.addEvent(obj);
+    obj.userData.f = new CLPOINTT.PointTool({ obj: obj });
+    obj.userData.f.addEvent();
   } else {
-    obj.userData.f = new CLPOINTO.PointObj();
-    obj.userData.f.addPointInArr(obj);
+    obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
+    obj.userData.f.addPointInArr();
   }
 
   Build.scene.add(obj);

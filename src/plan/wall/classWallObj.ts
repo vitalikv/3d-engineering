@@ -3,17 +3,25 @@ import { sbr as Build } from '../../index';
 import * as PLANM from '../main';
 import * as MOUSEE from '../../mouseEvent';
 import * as MOVEPOINT from './moveWall';
+import * as DELF from '../../core/deleteF';
 
 export class WallObj {
-  constructor() {}
+  obj = null;
 
-  addWallInArr(obj) {
-    let i = obj.userData.level;
-    PLANM.inf.level[i].walls.push(obj);
+  constructor(params) {
+    this.obj = params.obj;
   }
 
-  addEvent(obj, clickPos) {
-    this.aciveMat(obj);
+  addWallInArr() {
+    let obj = this.obj;
+    let levelId = obj.userData.level;
+    PLANM.inf.level[levelId].walls.push(obj);
+  }
+
+  addEvent(clickPos) {
+    let obj = this.obj;
+
+    this.aciveMat();
     // MOVEPOINT.startPoint({ obj: obj, clickPos: clickPos });
 
     // Build.canvas.onmousemove = (e) => {
@@ -28,33 +36,24 @@ export class WallObj {
     // };
   }
 
-  aciveMat(obj) {
+  aciveMat() {
+    let obj = this.obj;
     obj.material = obj.userData.wall.mat.act;
     Build.camOrbit.render();
   }
 
-  deAciveMat(obj) {
+  deAciveMat() {
+    let obj = this.obj;
     obj.material = obj.userData.wall.mat.def;
     Build.camOrbit.render();
   }
 
-  deleteObj(obj) {
-    let i = obj.userData.level;
-    this.deleteValueFromArrya({ obj: obj, arr: PLANM.inf.level[i].walls });
+  deleteObj() {
+    let obj = this.obj;
+    let levelId = obj.userData.level;
+    DELF.deleteValueFromArrya({ obj: obj, arr: PLANM.inf.level[levelId].walls });
 
     Build.scene.remove(obj);
     Build.camOrbit.render();
-  }
-
-  deleteValueFromArrya(params) {
-    let arr = params.arr;
-    let obj = params.obj;
-
-    for (let i = arr.length - 1; i > -1; i--) {
-      if (arr[i] == obj) {
-        arr.splice(i, 1);
-        break;
-      }
-    }
   }
 }

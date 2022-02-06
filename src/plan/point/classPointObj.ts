@@ -2,19 +2,26 @@ import * as THREE from 'three';
 import { sbr as Build } from '../../index';
 import * as PLANM from '../main';
 import * as MOUSEE from '../../mouseEvent';
+import * as DELF from '../../core/deleteF';
 import * as MOVEPOINT from './movePoint';
 import * as PWALL from '../wall/wall';
 
 export class PointObj {
-  constructor() {}
+  obj = null;
 
-  addPointInArr(obj) {
-    let i = obj.userData.level;
-    PLANM.inf.level[i].points.push(obj);
+  constructor(params) {
+    this.obj = params.obj;
   }
 
-  addEvent(obj, clickPos) {
-    this.aciveMat(obj);
+  addPointInArr() {
+    let obj = this.obj;
+    let levelId = obj.userData.level;
+    PLANM.inf.level[levelId].points.push(obj);
+  }
+
+  addEvent(clickPos) {
+    let obj = this.obj;
+    this.aciveMat();
     MOVEPOINT.startPoint({ obj: obj, clickPos: clickPos });
 
     Build.canvas.onmousemove = (e) => {
@@ -29,30 +36,33 @@ export class PointObj {
     };
   }
 
-  aciveMat(obj) {
+  aciveMat() {
+    let obj = this.obj;
     obj.material = obj.userData.point.mat.act;
     Build.camOrbit.render();
   }
 
-  deAciveMat(obj) {
+  deAciveMat() {
+    let obj = this.obj;
     obj.material = obj.userData.point.mat.def;
     Build.camOrbit.render();
   }
 
-  deleteObj(obj) {
+  deleteObj() {
+    let obj = this.obj;
+    let levelId = obj.userData.level;
+
     let p = obj.userData.point.joinP;
     let w = obj.userData.point.joinW;
-
-    let levelId = obj.userData.level;
 
     if (p.length > 2) return;
 
     for (let i = 0; i < p.length; i++) {
-      this.deleteValueFromArrya({ arr: p[i].userData.point.joinP, obj: obj });
+      DELF.deleteValueFromArrya({ arr: p[i].userData.point.joinP, obj: obj });
 
       for (let i2 = 0; i2 < w.length; i2++) {
-        this.deleteValueFromArrya({ arr: p[i].userData.point.joinW, obj: w[i2] });
-        this.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].walls, obj: w[i2] });
+        DELF.deleteValueFromArrya({ arr: p[i].userData.point.joinW, obj: w[i2] });
+        DELF.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].walls, obj: w[i2] });
         w[i2].geometry.dispose();
         Build.scene.remove(w[i2]);
       }
@@ -76,22 +86,10 @@ export class PointObj {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].userData.point.joinP.length > 0) continue;
 
-      this.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].points, obj: arr[i] });
+      DELF.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].points, obj: arr[i] });
       Build.scene.remove(arr[i]);
     }
 
     Build.camOrbit.render();
-  }
-
-  deleteValueFromArrya(params) {
-    let arr = params.arr;
-    let obj = params.obj;
-
-    for (let i = arr.length - 1; i > -1; i--) {
-      if (arr[i] == obj) {
-        arr.splice(i, 1);
-        break;
-      }
-    }
   }
 }

@@ -39,10 +39,10 @@ export function crWall(params: any = {}) {
   p2.userData.point.joinP.push(p1);
 
   if (tool) {
-    obj.userData.f = new CLWALLO.WallObj();
+    obj.userData.f = new CLWALLO.WallObj({ obj: obj });
   } else {
-    obj.userData.f = new CLWALLO.WallObj();
-    obj.userData.f.addWallInArr(obj);
+    obj.userData.f = new CLWALLO.WallObj({ obj: obj });
+    obj.userData.f.addWallInArr();
   }
 
   Build.scene.add(obj);

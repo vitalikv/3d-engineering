@@ -38,7 +38,7 @@ function deleteKey() {
   if (!inf.obj.down) return;
 
   let obj = inf.obj.down;
-  obj.userData.f.deleteObj(obj);
+  obj.userData.f.deleteObj();
 }
 
 function mouseDown(event) {
@@ -46,7 +46,7 @@ function mouseDown(event) {
 
   if (inf.obj.down) {
     let obj = inf.obj.down;
-    obj.userData.f.deAciveMat(obj);
+    obj.userData.f.deAciveMat();
   }
 
   inf.obj.down = null;
@@ -109,13 +109,13 @@ function clickMouseActive(params) {
     if (tag == 'point') {
       inf.obj.down = obj;
 
-      obj.userData.f.addEvent(obj, rayhit.point);
+      obj.userData.f.addEvent(rayhit.point);
     }
 
     if (tag == 'wall') {
       inf.obj.down = obj;
 
-      obj.userData.f.addEvent(obj, rayhit.point);
+      obj.userData.f.addEvent(rayhit.point);
     }
   }
 }
