@@ -84,10 +84,6 @@ export function finishToolPoint(params) {
 
   if (!o && !w) {
     obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
-    obj.userData.f.addPointInArr();
-
-    let wall = obj.userData.point.joinW[0];
-    if (wall) wall.userData.f.addWallInArr();
 
     BPOINT.crPoint({ tool: true, pos: obj.position.clone(), joinP: [obj] });
   }

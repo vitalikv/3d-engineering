@@ -70,7 +70,6 @@ export function crPoint(params: any = {}) {
     obj.userData.f.addEvent();
   } else {
     obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
-    obj.userData.f.addPointInArr();
   }
 
   Build.scene.add(obj);

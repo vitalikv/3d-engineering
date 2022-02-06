@@ -12,12 +12,19 @@ export class PointObj {
 
   constructor(params) {
     this.obj = params.obj;
+
+    this.addPointInArr();
   }
 
   addPointInArr() {
     let obj = this.obj;
     let levelId = obj.userData.level;
-    PLANM.inf.level[levelId].points.push(obj);
+
+    let exsist = PLANM.inf.level[levelId].points.find((p) => p == obj);
+
+    if (!exsist) {
+      PLANM.inf.level[levelId].points.push(obj);
+    }
   }
 
   addEvent(clickPos) {

@@ -10,6 +10,8 @@ export class WallObj {
 
   constructor(params) {
     this.obj = params.obj;
+
+    this.addWallInArr();
   }
 
   addWallInArr() {

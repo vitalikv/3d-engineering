@@ -44,9 +44,13 @@ export function deletePoint(params = { obj: null }) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].userData.point.joinP.length > 0) continue;
 
+    console.log(arr[i].userData);
+
     DELF.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].points, obj: arr[i] });
     Build.scene.remove(arr[i]);
   }
+
+  console.log(PLANM.inf.level[levelId].points);
 
   Build.camOrbit.render();
 }

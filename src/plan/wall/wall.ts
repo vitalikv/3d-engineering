@@ -40,10 +40,6 @@ export function crWall(params: any = {}) {
 
   obj.userData.f = new CLWALLO.WallObj({ obj: obj });
 
-  if (!tool) {
-    obj.userData.f.addWallInArr();
-  }
-
   Build.scene.add(obj);
 
   p1.userData.point.joinW.push(obj);
