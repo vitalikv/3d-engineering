@@ -7,6 +7,7 @@ import * as DELF from '../../core/deleteF';
 import * as CLPOINTO from './classPointObj';
 import * as BPOINT from './point';
 import * as CONNPOINT from './connectPoint';
+import * as DELPOINT from './deletePoint';
 
 export class PointTool {
   obj = null;
@@ -33,34 +34,14 @@ export class PointTool {
       MOVEPOINT.endPoint();
 
       if (e.button == 2) {
-        this.deletePoint();
+        this.deleteObj();
       } else {
         CONNPOINT.finishToolPoint({ obj: obj });
       }
     };
   }
 
-  deletePoint() {
-    let obj = this.obj;
-    let levelId = obj.userData.level;
-
-    let p = obj.userData.point.joinP[0];
-    let w = obj.userData.point.joinW[0];
-
-    DELF.deleteValueFromArrya({ arr: p.userData.point.joinP, obj: obj });
-
-    if (w) {
-      DELF.deleteValueFromArrya({ arr: p.userData.point.joinW, obj: w });
-      w.geometry.dispose();
-      Build.scene.remove(w);
-    }
-
-    if (p.userData.point.joinP.length == 0) {
-      DELF.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].points, obj: p });
-      Build.scene.remove(p);
-    }
-
-    Build.scene.remove(obj);
-    Build.camOrbit.render();
+  deleteObj() {
+    DELPOINT.deletePoint({ obj: this.obj });
   }
 }

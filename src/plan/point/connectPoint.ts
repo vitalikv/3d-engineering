@@ -13,7 +13,10 @@ export function finishToolPoint(params) {
 
   let levelId = obj.userData.level;
 
-  let o = RHIT.rayFromPointToObj({ obj: obj, arr: PLANM.inf.level[levelId].points });
+  let o = null;
+  let w = null;
+
+  o = RHIT.rayFromPointToObj({ obj: obj, arr: PLANM.inf.level[levelId].points });
 
   // точка состыковалась с точкой
   if (o) {
@@ -39,13 +42,47 @@ export function finishToolPoint(params) {
     }
   }
 
-  let w = { divide: false };
-
   if (!o) {
-    // w = this.divideWall({ obj: obj, tool: true });
+    let arr = [];
+    let arrW = PLANM.inf.level[levelId].walls;
+    let jW = obj.userData.point.joinW;
+
+    for (let i = 0; i < arrW.length; i++) {
+      let add = true;
+
+      for (let i2 = 0; i2 < jW.length; i2++) {
+        if (arrW[i] == jW[i2]) {
+          add = false;
+          continue;
+        }
+      }
+
+      if (add) arr.push(arrW[i]);
+    }
+
+    w = RHIT.rayFromPointToObj({ obj: obj, arr: arr });
   }
 
-  if (!o && !w.divide) {
+  if (w) {
+    console.log(222, w);
+    let p = w.userData.wall.joinP;
+
+    DELF.deleteValueFromArrya({ arr: p[0].userData.point.joinP, obj: p[1] });
+    DELF.deleteValueFromArrya({ arr: p[1].userData.point.joinP, obj: p[0] });
+
+    DELF.deleteValueFromArrya({ arr: p[0].userData.point.joinW, obj: w });
+    DELF.deleteValueFromArrya({ arr: p[1].userData.point.joinW, obj: w });
+
+    w.geometry.dispose();
+    Build.scene.remove(w);
+    DELF.deleteValueFromArrya({ arr: PLANM.inf.level[levelId].walls, obj: w });
+
+    for (let i = 0; i < p.length; i++) {
+      PWALL.crWall({ p1: obj, p2: p[i] });
+    }
+  }
+
+  if (!o && !w) {
     obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
     obj.userData.f.addPointInArr();
 
@@ -55,7 +92,7 @@ export function finishToolPoint(params) {
     BPOINT.crPoint({ tool: true, pos: obj.position.clone(), joinP: [obj] });
   }
 
-  if (o || w.divide) {
+  if (o || w) {
     // if(o) { detectRoomZone({type: 'addCheckFloor', point: o}); }
     // else if(w.divide) { for( let i = 0; i < w.p.length; i++ ){ detectRoomZone({type: 'addCheckFloor', point: w.p[i]}); } }
   }

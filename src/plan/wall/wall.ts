@@ -38,10 +38,9 @@ export function crWall(params: any = {}) {
   p1.userData.point.joinP.push(p2);
   p2.userData.point.joinP.push(p1);
 
-  if (tool) {
-    obj.userData.f = new CLWALLO.WallObj({ obj: obj });
-  } else {
-    obj.userData.f = new CLWALLO.WallObj({ obj: obj });
+  obj.userData.f = new CLWALLO.WallObj({ obj: obj });
+
+  if (!tool) {
     obj.userData.f.addWallInArr();
   }
 
@@ -53,6 +52,8 @@ export function crWall(params: any = {}) {
   console.log('crWall', p1.userData.id, p2.userData.id, p1.userData.point.joinW, p2.userData.point.joinW);
 
   updateWall({ obj: p1 });
+
+  Build.camOrbit.render();
 }
 
 export function updateWall(params) {
