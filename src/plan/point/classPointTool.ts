@@ -4,9 +4,6 @@ import * as PLANM from '../main';
 import * as MOUSEE from '../../mouseEvent';
 import * as MOVEPOINT from './movePoint';
 import * as DELF from '../../core/deleteF';
-import * as CLPOINTO from './classPointObj';
-import * as BPOINT from './point';
-import * as CONNPOINT from './connectPoint';
 import * as DELPOINT from './deletePoint';
 
 export class PointTool {
@@ -31,7 +28,7 @@ export class PointTool {
 
     Build.canvas.onmousemove = (e) => {
       MOUSEE.setStop(true);
-      MOVEPOINT.movePoint({ obj: this.obj, event: e });
+      MOVEPOINT.movePoint({ obj: obj, event: e });
     };
 
     Build.canvas.onmousedown = (e) => {
@@ -39,12 +36,11 @@ export class PointTool {
       Build.canvas.onmousedown = null;
 
       MOUSEE.setStop(false);
-      MOVEPOINT.endPoint();
 
       if (e.button == 2) {
         this.deleteObj();
       } else {
-        CONNPOINT.finishToolPoint({ obj: obj });
+        MOVEPOINT.endPoint({ obj: obj, tool: true });
       }
     };
   }

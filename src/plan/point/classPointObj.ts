@@ -5,6 +5,7 @@ import * as MOUSEE from '../../mouseEvent';
 import * as DELF from '../../core/deleteF';
 import * as MOVEPOINT from './movePoint';
 import * as PWALL from '../wall/wall';
+import * as CONNPOINT from './connectPoint';
 import * as DELPOINT from './deletePoint';
 
 export class PointObj {
@@ -40,7 +41,7 @@ export class PointObj {
       Build.canvas.onmousemove = null;
       document.onmouseup = null;
 
-      MOVEPOINT.endPoint();
+      MOVEPOINT.endPoint({ obj: obj });
     };
   }
 

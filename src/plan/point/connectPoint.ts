@@ -24,7 +24,7 @@ export function finishToolPoint(params) {
     let w = obj.userData.point.joinW;
 
     if (p.length == 1 && p[0] == o) {
-      obj.userData.f.deletePoint(obj);
+      obj.userData.f.deleteObj(obj);
     } else {
       DELF.deleteValueFromArrya({ arr: p[0].userData.point.joinP, obj: obj });
       DELF.deleteValueFromArrya({ arr: p[0].userData.point.joinW, obj: w[0] });
@@ -82,14 +82,10 @@ export function finishToolPoint(params) {
     }
   }
 
-  if (!o && !w) {
-    obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
-
-    BPOINT.crPoint({ tool: true, pos: obj.position.clone(), joinP: [obj] });
-  }
-
   if (o || w) {
     // if(o) { detectRoomZone({type: 'addCheckFloor', point: o}); }
     // else if(w.divide) { for( let i = 0; i < w.p.length; i++ ){ detectRoomZone({type: 'addCheckFloor', point: w.p[i]}); } }
   }
+
+  return { p: o, w: w };
 }

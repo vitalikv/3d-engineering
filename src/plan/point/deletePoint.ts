@@ -52,5 +52,7 @@ export function deletePoint(params = { obj: null }) {
 
   console.log(PLANM.inf.level[levelId].points);
 
+  Build.camOrbit.stopMove = false;
+
   Build.camOrbit.render();
 }

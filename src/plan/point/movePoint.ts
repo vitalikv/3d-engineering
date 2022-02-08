@@ -5,6 +5,8 @@ import * as MOUSEE from '../../mouseEvent';
 import * as RHIT from '../../core/rayHit';
 import * as BPOINT from './point';
 import * as PWALL from '../wall/wall';
+import * as CONNPOINT from './connectPoint';
+import * as CLPOINTO from './classPointObj';
 
 export function startPoint(params) {
   let obj = params.obj;
@@ -39,6 +41,21 @@ export function movePoint(params) {
   Build.camOrbit.render();
 }
 
-export function endPoint() {
+export function endPoint(params) {
+  let obj = params.obj;
+
   Build.camOrbit.stopMove = false;
+
+  let result = CONNPOINT.finishToolPoint({ obj: obj });
+
+  if (params.tool) {
+    if (!result.p && !result.w) {
+      obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
+      BPOINT.crPoint({ tool: true, pos: obj.position.clone(), joinP: [obj] });
+    }
+
+    if (result.w) {
+      obj.userData.f = new CLPOINTO.PointObj({ obj: obj });
+    }
+  }
 }
